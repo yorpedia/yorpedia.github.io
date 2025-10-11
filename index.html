@@ -194,6 +194,49 @@
         font-size: 1.4em;
       }
     }
+    <style>
+/* Animasi footer muncul */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 40px 20px 20px;
+  margin-top: 40px;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeSlideUp 1s ease forwards;
+}
+
+/* Animasi ikon sosial media */
+.social-icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background-color: rgba(255, 0, 0, 0.8);
+  transform: translateY(-8px) scale(1.1);
+  opacity: 1;
+}
+</style>
   </style>
 </head>
 <body>
@@ -233,7 +276,7 @@
 
     <div class="submenu-toggle">Domain</div>
     <div class="submenu">
-      <a href="error.html">Daftar Domain</a>
+      <a href="error.html">Order</a>
     </div>
 
     <div class="submenu-toggle">Suntik Sosial Media</div>
@@ -265,21 +308,20 @@
 
     <div class="submenu-toggle">E-Book</div>
     <div class="submenu">
-      <a href="error.html">E-book 1</a>
-      <a href="error.html">E-book 2</a>
+      <a href="error.html">Order</a>
     </div>
 
     <div class="submenu-toggle">Produk Lainnya</div>
     <div class="submenu">
       <a href="error.html">Nokos</a>
-      <a href="error.html">Produk 2</a>
+      <a href="error.html">Qris no Ktp</a>
       
     </div>
   </div>
 
   <!-- HERO SECTION -->
   <section class="hero">
-    <h1>Selamat Datang di YorPedia</h1>
+    <h1>Selamat Datang!</h1>
     <p>Tempat terbaik untuk layanan server, domain, sosial media, dan berbagai produk digital lainnya.  
     Temukan semua kebutuhan Anda di satu tempat!</p>
     <div class="buttons">
@@ -339,6 +381,49 @@ a:hover {
   background-color: #FFF5F5 !important;
 }
 </style>
+
+
+<footer>
+  <div style="
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+  ">
+    <!-- Bagian Tentang -->
+    <div>
+      <h3 style="color: rgba(255, 0, 0, 0.8); margin-bottom: 20px; font-size: 1.2em;">Tentang</h3>
+      <p style="line-height: 1.6; color: #ccc; margin-bottom: 15px;">
+        YorPedia adalah platform terpercaya untuk berbagai layanan digital termasuk VPS, dedicated server, domain, layanan sosial media, dan produk digital lainnya.
+      </p>
+    </div>
+
+    <!-- Sosial Media -->
+    <div>
+      <h3 style="color: rgba(255, 0, 0, 0.8); margin-bottom: 20px; font-size: 1.2em;">Ikuti Kami</h3>
+      <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+        <!-- Telegram -->
+        <a href="https://t.me/yorpedia" target="_blank" class="social-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="20px" height="20px">
+            <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.73 7.05l-1.8 8.49c-.13.56-.48.69-.98.43l-2.73-2.01-1.32 1.27c-.15.15-.28.28-.57.28l.2-2.81 5.11-4.61c.22-.2-.05-.31-.34-.11l-6.3 3.97-2.71-.85c-.59-.18-.6-.59.12-.87l10.6-4.08c.49-.19.92.11.76.86z"/>
+          </svg>
+        </a>
+
+        <!-- Instagram -->
+        <a href="error.html" target="_blank" class="social-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="20px" height="20px">
+            <path d="M12 2.2c3.2 0 3.584.012 4.85.07 1.17.054 1.97.24 2.432.402a4.92 4.92 0 011.675 1.092 4.92 4.92 0 011.092 1.674c.162.463.348 1.262.403 2.432.058 1.266.07 1.65.07 4.85s-.012 3.584-.07 4.85c-.055 1.17-.241 1.97-.403 2.432a4.92 4.92 0 01-1.092 1.675 4.92 4.92 0 01-1.675 1.092c-.463.162-1.262.348-2.432.403-1.266.058-1.65.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.055-1.97-.241-2.432-.403a4.92 4.92 0 01-1.675-1.092 4.92 4.92 0 01-1.092-1.675c-.162-.463-.348-1.262-.403-2.432C2.212 15.584 2.2 15.2 2.2 12s.012-3.584.07-4.85c.055-1.17.241-1.97.403-2.432a4.92 4.92 0 011.092-1.675 4.92 4.92 0 011.675-1.092c.463-.162 1.262-.348 2.432-.403C8.416 2.212 8.8 2.2 12 2.2zm0-2.2C8.735 0 8.332.012 7.052.07 5.766.127 4.73.33 3.897.654 3.03 1 2.24 1.54 1.54 2.24.84 2.94.3 3.73.055 4.597-.27 5.43-.473 6.466-.53 7.752-.588 9.032-.6 9.435-.6 12c0 2.565.012 2.968.07 4.248.057 1.286.26 2.322.585 3.155.245.867.785 1.657 1.485 2.357.7.7 1.49 1.24 2.357 1.485.833.325 1.869.528 3.155.585 1.28.058 1.683.07 4.248.07s2.968-.012 4.248-.07c1.286-.057 2.322-.26 3.155-.585a5.985 5.985 0 002.357-1.485c.7-.7 1.24-1.49 1.485-2.357.325-.833.528-1.869.585-3.155.058-1.28.07-1.683.07-4.248s-.012-2.968-.07-4.248c-.057-1.286-.26-2.322-.585-3.155a5.985 5.985 0 00-1.485-2.357 5.985 5.985 0 00-2.357-1.485c-.833-.325-1.869-.528-3.155-.585C14.968.012 14.565 0 12 0z"/>
+            <path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8z"/>
+            <circle cx="18.406" cy="5.594" r="1.44"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <p style="margin: 0; text-align: center;">&copy; 2025 YorPedia. All rights reserved.</p>
+</footer>
   <script>
     // Ambil tombol Layanan
 const layananBtn = document.querySelector('.buttons button:first-child');
@@ -367,3 +452,5 @@ layananBtn.addEventListener('click', () => {
   </script>
 </body>
   </html>
+<!--KODE PROMO: YORFIRST-->
+<!-- I Love You Nabila Azzahra -->
