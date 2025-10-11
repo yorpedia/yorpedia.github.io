@@ -287,7 +287,58 @@
       <button class="buttonB">Bantuan</button>
     </div>
   </section>
+<div style="max-width:375px; margin:50px auto; background-color:#fff; border-radius:10px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+  
+  <div style="background-color:#FF3434; padding:20px; font-weight:bold; font-size:18px; color:#fff; border-radius:10px 10px 0 0; animation:slideDown 0.5s ease-out;">
+    Menu Lainnya
+  </div>
+  
+  <div style="display:flex; flex-direction:column; gap:10px; padding:20px;">
+    <a href="https://drive.google.com/drive/folders/1PIl9MAkxMrfGn8yIop-R8oAkIQEA1_OW" style="background-color:#FFF; color:#FF3434; text-align:center; padding:15px 0; border-radius:8px; text-decoration:none; font-weight:bold; transition:transform 0.2s; border: 2px solid #FF6A6A; animation:fadeInItem 0.5s ease-out 0.1s both;">
+      Testimoni
+    </a>
+    <a href="error.html" style="background-color:#FFF; color:#FF3434; text-align:center; padding:15px 0; border-radius:8px; text-decoration:none; font-weight:bold; transition:transform 0.2s; border: 2px solid #FF6A6A; animation:fadeInItem 0.5s ease-out 0.2s both;">
+      Komunitas
+    </a>
+    <a href="error.html" style="background-color:#FFF; color:#FF3434; text-align:center; padding:15px 0; border-radius:8px; text-decoration:none; font-weight:bold; transition:transform 0.2s; border: 2px solid #FF6A6A; animation:fadeInItem 0.5s ease-out 0.3s both;">
+      Pengumuman
+    </a>
+  </div>
+</div>
 
+<style>
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInItem {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+a {
+  transition: all 0.3s ease !important;
+}
+
+a:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(255, 52, 52, 0.2) !important;
+  background-color: #FFF5F5 !important;
+}
+</style>
   <script>
     // Ambil tombol Layanan
 const layananBtn = document.querySelector('.buttons button:first-child');
