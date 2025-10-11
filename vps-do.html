@@ -169,10 +169,10 @@
       <input type="text" id="nama" placeholder="Contoh: Robinsar Napitupulu" required>
 
       <label>Email</label>
-      <input type="email" id="email" placeholder="Contoh: robinsar@email.com" required>
+      <input type="email" id="email" required>
 
       <label>Nomor WhatsApp</label>
-      <input type="tel" id="wa" placeholder="Contoh: 6281234567890" required>
+      <input type="tel" id="wa" required>
 
       <label>Region</label>
       <select id="region" required>
@@ -194,20 +194,20 @@
 
       <label>Spesifikasi VPS</label>
       <div>
-        <div class="vps-option"><input type="radio" name="spec" value="512MB 1vCore|9000"> RAM-512MB 1vCore</div>
-        <div class="vps-option"><input type="radio" name="spec" value="1GB 1vCore|13000"> RAM-1GB 1vCore</div>
-        <div class="vps-option"><input type="radio" name="spec" value="2GB 1vCore|18000"> RAM-2GB 1vCore</div>
-        <div class="vps-option"><input type="radio" name="spec" value="4GB 2vCore|33000"> RAM-4GB 2vCore</div>
+        <div class="vps-option"><input type="radio" name="spec" value="512MB 1vCore|9000">RAM-512MB 1vCore</div>
+        <div class="vps-option"><input type="radio" name="spec" value="1GB 1vCore|13000">RAM-1GB 1vCore</div>
+        <div class="vps-option"><input type="radio" name="spec" value="2GB 1vCore|18000">RAM-2GB 1vCore</div>
+        <div class="vps-option"><input type="radio" name="spec" value="4GB 2vCore|33000">RAM-4GB 2vCore</div>
       </div>
 
-      <label>Kode Promo (Opsional)</label>
-      <input type="text" id="promo" placeholder="Masukkan kode promo">
+      <label>Kode Promo</label>
+      <input type="text" id="promo" placeholder="Opsional">
       <div id="promoMsg" class="promo-invalid"></div>
 
-      <div class="total-box">Total: <span id="totalHarga">Rp 0</span></div>
+      <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>
 
       <label>Catatan Tambahan (Opsional)</label>
-      <textarea id="catatan" placeholder="Tulis catatan tambahan di sini..."></textarea>
+      <textarea id="catatan"></textarea>
 
       <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
     </form>
@@ -221,7 +221,7 @@
 
       <div class="pay-method">
         <b>QRIS:</b><br>
-        <img src="qris.png" alt="QRIS" width="150"><br><br>
+        <img src="qris.png" alt="Kode Qris" width="150"><br><br>
 
         <b>DANA:</b> 0831-7715-2459
    
