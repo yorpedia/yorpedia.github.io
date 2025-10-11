@@ -1,0 +1,6 @@
+{
+  "promo": [
+    {"code": "YORFIRST", "discount": 0.02},
+    {"code": "SUZA", "discount": 0.5}
+  ]
+}
