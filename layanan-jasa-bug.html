@@ -53,12 +53,12 @@
     <input type="text" id="promo" placeholder="Opsional">
     <div id="promoMsg" class="promo-invalid"></div>
 
-    <div class="total-box">Total: <span id="totalHarga">Rp3.800</span></div>
+    <div class="total-box">Total: <span id="totalHarga">Rp4.300</span></div>
 
     <label>Catatan Tambahan (Opsional)</label>
     <textarea id="catatan"></textarea>
 
-    <button type="button" id="btnBayar">Metode Pembayaran</button>
+    <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
   </form>
 </div>
 
@@ -72,7 +72,7 @@
       <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>
     </div>
     <p style="margin-top:20px;font-weight:600;color:#333;">
-      Total yang harus dibayar: <span id="totalBayar">Rp 3.800</span>
+      Total yang harus dibayar: <span id="totalBayar">Rp 4.300</span>
     </p>
     <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>
   </div>
@@ -84,10 +84,12 @@ const promoMsg = document.getElementById('promoMsg');
 const totalHarga = document.getElementById('totalHarga');
 const totalBayar = document.getElementById('totalBayar');
 const popup = document.getElementById('popup');
+const btnBayar = document.getElementById('btnBayar');
+const form = document.getElementById('formBug');
 
 let promoList = [];
 let diskon = 0;
-let hargaDefault = 3800;
+let hargaDefault = 4300; // 💰 harga default diubah ke 4300
 
 fetch('promo.json')
   .then(res => res.json())
@@ -118,8 +120,22 @@ function hitungTotal() {
   totalBayar.textContent = totalHarga.textContent;
 }
 
+// === 🔹 Tambahan logika tombol aktif jika kolom wajib terisi ===
+const nama = document.getElementById('nama');
+const wa = document.getElementById('wa');
+const target = document.getElementById('target');
+
+function cekIsiForm() {
+  const semuaTerisi = nama.value.trim() !== "" && wa.value.trim() !== "" && target.value.trim() !== "";
+  btnBayar.disabled = !semuaTerisi;
+}
+
+[nama, wa, target].forEach(el => el.addEventListener('input', cekIsiForm));
+cekIsiForm();
+// ===============================================================
+
 promoInput.addEventListener('input', cekPromo);
-document.getElementById('btnBayar').onclick = () => { popup.style.display = 'flex'; };
+btnBayar.onclick = () => { popup.style.display = 'flex'; };
 function tutupPopup(){ popup.style.display = 'none'; }
 
 function kirimWA(){
