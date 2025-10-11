@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YorPedia</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f7f7f7;
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 10px 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .logo-text {
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+
+    .logo-text span:first-child {
+      color: #000;
+    }
+
+    .logo-text span:last-child {
+      color: rgba(255, 0, 0, 0.7);
+    }
+
+    .menu-btn {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 30px;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      height: 100%;
+      width: 260px;
+      position: fixed;
+      top: 0;
+      right: -270px;
+      background-color: #fff;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+      padding-top: 70px;
+      transition: 0.3s ease;
+      overflow-y: auto;
+      z-index: 999;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar a, .submenu-toggle {
+      display: block;
+      padding: 10px 20px;
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .sidebar a:hover, .submenu-toggle:hover {
+      background-color: rgba(255,0,0,0.1);
+    }
+
+    .submenu {
+      display: none;
+      padding-left: 25px;
+      background: #f9f9f9;
+    }
+
+    .submenu a {
+      padding: 8px 20px;
+      font-size: 0.95em;
+      color: #444;
+    }
+
+    .submenu a:hover {
+      background-color: rgba(255,0,0,0.1);
+    }
+
+    .submenu.open {
+      display: block;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      /* background-color: rgba(255, 0, 0, 0.15); */
+      background-color: #fff1f0;
+      text-align: center;
+      padding: 60px 20px 60px;
+      margin-top: 60px;
+      min-height: 10px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .hero h1 {
+      margin-bottom: 15px;
+      font-size: 1.8em;
+      animation: slideDown 1.2s ease forwards;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto 25px;
+      font-size: 1em;
+      line-height: 1.6;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      animation: popUp 1.5s ease forwards;
+    }
+
+    .buttons .buttonL {
+      background-color: rgba(255,0,0,0.8);
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: Arial;
+    }
+    .buttons .buttonB {
+      background-color: #fff;
+      border: none;
+      color: rgba(255,0,0,0.8);
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: Arial;
+    }
+
+    .buttons button:hover {
+      background-color: rgba(255,0,0,1);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes slideDown {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes popUp {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 1.4em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!--
+  WEBSITE INI DIBUAT OLEH
+  DEBBY : 10%
+  CHAT GPT : 90% 😹
+  -->
+  
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo-container">
+      <img src="gambar/logo.png" alt="Logo" class="logo">
+      <div class="logo-text"><span>Yor</span><span>Pedia</span></div>
+    </div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+  </nav>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="submenu-toggle">Virtual Private Server</div>
+    <div class="submenu">
+      <a href="#">Digital Ocean</a>
+      <a href="#">AMD Epyc</a>
+      <a href="#">AMD Ryzen</a>
+    </div>
+
+    <div class="submenu-toggle">Dedicated Server</div>
+    <div class="submenu">
+      <div class="submenu-toggle">Hosting Minecraft</div>
+      <div class="submenu">
+        <a href="#">Basic</a>
+        <a href="#">Premium</a>
+      </div>
+      <a href="#">Panel Bot Whatsapp</a>
+    </div>
+
+    <div class="submenu-toggle">Domain</div>
+    <div class="submenu">
+      <a href="#">Daftar Domain</a>
+    </div>
+
+    <div class="submenu-toggle">Suntik Sosial Media</div>
+    <div class="submenu">
+      <a href="#">Tiktok</a>
+      <a href="#">Instagram</a>
+      <a href="#">Youtube</a>
+      <a href="#">Facebook</a>
+      <a href="#">Telegram</a>
+      <a href="#">Whatsapp</a>
+    </div>
+
+    <div class="submenu-toggle">Aplikasi Premium</div>
+    <div class="submenu">
+      <a href="#">Mcpe Original</a>
+      <a href="#">GTA-SA Original</a>
+      <a href="#">Canva Premium</a>
+      <a href="#">Youtube Premium</a>
+    </div>
+
+    <div class="submenu-toggle">Layanan Jasa</div>
+    <div class="submenu">
+      <a href="#">Promosi</a>
+      <a href="#">Bug Whatsapp</a>
+      <a href="#">Unbanned Whatsapp</a>
+      <a href="#">Install Pterodactyl</a>
+      <a href="#">Install Thema</a>
+    </div>
+
+    <div class="submenu-toggle">E-Book</div>
+    <div class="submenu">
+      <a href="#">E-book 1</a>
+      <a href="#">E-book 2</a>
+      <a href="#">...</a>
+    </div>
+
+    <div class="submenu-toggle">Produk Lainnya</div>
+    <div class="submenu">
+      <a href="#">Produk 1</a>
+      <a href="#">Produk 2</a>
+      <a href="#">...</a>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Selamat Datang di YorPedia</h1>
+    <p>Tempat terbaik untuk layanan server, domain, sosial media, dan berbagai produk digital lainnya.  
+    Temukan semua kebutuhan Anda di satu tempat!</p>
+    <div class="buttons">
+      <button class="buttonL">Layanan</button>
+      <button class="buttonB">Bantuan</button>
+    </div>
+  </section>
+
+  <script>
+    // Ambil tombol Layanan
+const layananBtn = document.querySelector('.buttons button:first-child');
+
+// Saat tombol Layanan diklik, buka sidebar
+layananBtn.addEventListener('click', () => {
+  sidebar.classList.add('active');
+});
+
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const submenuToggles = document.querySelectorAll('.submenu-toggle');
+
+    menuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    submenuToggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const submenu = toggle.nextElementSibling;
+        if (submenu && submenu.classList.contains('submenu')) {
+          submenu.classList.toggle('open');
+        }
+      });
+    });
+  </script>
+</body>
+  </html>
