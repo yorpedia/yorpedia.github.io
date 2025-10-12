@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YorPedia - Canva Premium</title>
+<title>YorPedia - Canva Pro</title>
 <style>
   body { font-family: 'Poppins', sans-serif; background-color: #f5f5f5; margin:0; padding:0; }
   header { display:flex; align-items:center; background:#fff; padding:10px 15px; box-shadow:0 1px 4px rgba(0,0,0,0.1);}
@@ -35,7 +35,7 @@
       <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
     </svg>
   </a>
-  <h1>Canva Premium</h1>
+  <h1>Canva Pro</h1>
 </header>
 
 <div class="container">
@@ -52,14 +52,18 @@
     <label>Durasi</label>
     <select id="durasi" required>
       <option value="">Pilih Durasi</option>
-      <option value="5000">Rp5.000 / bulan</option>
+      <option value="1950">Rp1.950 / 1bln</option>
+      <option value="5840">Rp5.840 / 2bln</option>
+      <option value="11670">Rp11.670 / 3bln</option>
+      <option value="17500">Rp17.500 / 6bln</option>
+      <option value="23330">Rp23.330 / 1th</option>
     </select>
 
     <label>Kode Promo</label>
     <input type="text" id="promo" placeholder="Opsional">
     <div id="promoMsg" class="promo-invalid"></div>
 
-    <div class="total-box">Total: <span id="totalHarga">Rp5.000</span></div>
+    <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>
 
     <label>Catatan Tambahan (Opsional)</label>
     <textarea id="catatan"></textarea>
@@ -78,7 +82,7 @@
       <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>
     </div>
     <p style="margin-top:20px;font-weight:600;color:#333;">
-      Total yang harus dibayar: <span id="totalBayar">Rp5.000</span>
+      Total yang harus dibayar: <span id="totalBayar">Rp0</span>
     </p>
     <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>
   </div>
@@ -96,6 +100,7 @@ const form = document.getElementById('formWA');
 let diskon = 0;
 let promoList = [];
 
+// Ambil daftar promo dari file JSON jika ada
 fetch('promo.json')
   .then(res => res.json())
   .then(data => { promoList = data.promo; })
@@ -120,7 +125,8 @@ function cekPromo() {
 
 function hitungTotal() {
   cekPromo();
-  let total = 5000 * (1 - diskon);
+  let durasiVal = parseInt(document.getElementById('durasi').value) || 0;
+  let total = durasiVal * (1 - diskon);
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
   totalBayar.textContent = totalHarga.textContent;
   return total;
@@ -151,9 +157,13 @@ function kirimWA(){
   const total = totalHarga.textContent;
   const kodePromo = promoInput.value.trim() || "-";
 
-  const pesan = `*Canva Premium*\nNama: ${nama}\nWhatsApp: ${wa}\nEmail Canva: ${email}\nDurasi: ${durasi}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;
+  const pesan = `*Canva Pro*\nNama: ${nama}\nWhatsApp: ${wa}\nEmail Canva: ${email}\nDurasi: ${durasi}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;
   window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
 }
+
+// Inisialisasi awal
+hitungTotal();
+checkForm();
 </script>
 </body>
 </html>
