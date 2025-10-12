@@ -20,6 +20,7 @@
   button:hover{background:#d32f2f;}
   button:disabled{background:#ccc; cursor:not-allowed;}
   .total-box{margin-top:20px;padding:15px;background:#f9f9f9;border-radius:10px;font-weight:600;text-align:center;color:#333;border:1px solid #ddd;}
+  .error-msg{color:red;font-size:0.9em;margin-top:5px;}
   .popup{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:999;}
   .popup-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:400px;position:relative;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);animation:fadeIn 0.3s ease;}
   @keyframes fadeIn{from{opacity:0;transform:scale(0.9);} to{opacity:1;transform:scale(1);}}
@@ -54,7 +55,8 @@
     <input type="text" id="nickname" placeholder="Opsional">
 
     <label>Jumlah TopUp ($)</label>
-    <input type="number" id="jumlah" min="1" value="1" required>
+    <input type="tel" id="jumlah" value="1" required>
+    <div id="jumlahMsg" class="error-msg"></div>
 
     <label>Catatan Tambahan (Opsional)</label>
     <textarea id="catatan"></textarea>
@@ -87,13 +89,14 @@ const waInput = document.getElementById('wa');
 const emailInput = document.getElementById('email');
 const nicknameInput = document.getElementById('nickname');
 const jumlahInput = document.getElementById('jumlah');
+const jumlahMsg = document.getElementById('jumlahMsg');
 const btnBayar = document.getElementById('btnBayar');
 const popup = document.getElementById('popup');
 const totalHarga = document.getElementById('totalHarga');
 const totalBayar = document.getElementById('totalBayar');
 
 function hitungTotal() {
-  let jumlah = parseInt(jumlahInput.value) || 1;
+  let jumlah = parseInt(jumlahInput.value) || 0;
   let total = jumlah * 18460;
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
   totalBayar.textContent = totalHarga.textContent;
@@ -103,9 +106,22 @@ function checkForm() {
   const nama = namaInput.value.trim();
   const wa = waInput.value.trim();
   const email = emailInput.value.trim();
-  const jumlah = parseInt(jumlahInput.value);
+  const jumlahVal = jumlahInput.value.trim();
 
-  btnBayar.disabled = !(nama && wa.length>=10 && email && jumlah>=1);
+  // Validasi angka bulat
+  if(jumlahVal.includes(",") || jumlahVal.includes(".")){
+    jumlahMsg.textContent = "Tidak mendukung jumlah desimal.";
+    btnBayar.disabled = true;
+    return;
+  } else if(!/^\d+$/.test(jumlahVal) || parseInt(jumlahVal) < 1){
+    jumlahMsg.textContent = "";
+    btnBayar.disabled = true;
+    return;
+  } else {
+    jumlahMsg.textContent = "";
+  }
+
+  btnBayar.disabled = !(nama && wa.length >= 10 && email && parseInt(jumlahVal) >= 1);
   hitungTotal();
 }
 
@@ -137,6 +153,7 @@ function kirimWA(){
   window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
 }
 
+// Inisialisasi awal
 hitungTotal();
 checkForm();
 </script>
