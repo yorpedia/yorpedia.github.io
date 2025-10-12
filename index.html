@@ -345,6 +345,9 @@ footer {
     <a href="error.html" style="background-color:#FFF; color:#FF3434; text-align:center; padding:15px 0; border-radius:8px; text-decoration:none; font-weight:bold; transition:transform 0.2s; border: 2px solid #FF6A6A; animation:fadeInItem 0.5s ease-out 0.3s both;">
       Pengumuman
     </a>
+        <a id="btnHadiah" class="btn-hadiah" title="Hadiah" href="#" style="background-color:#FFF; color:#FF3434; text-align:center; padding:15px 0; border-radius:8px; text-decoration:none; font-weight:bold; transition:transform 0.2s; border: 2px solid #FF6A6A; animation:fadeInItem 0.5s ease-out 0.3s both;">
+    Hadiah
+    </a>
   </div>
 </div>
 
@@ -449,6 +452,23 @@ layananBtn.addEventListener('click', () => {
         }
       });
     });
+    fetch('hadiah.json')
+  .then(res => res.json())
+  .then(data => {
+    const hadiahBtn = document.getElementById('btnHadiah');
+    if (data.link && data.link.trim() !== "") {
+      // Kalau hadiah tersedia
+      hadiahBtn.href = data.link;
+      hadiahBtn.target = "_blank";
+    } else {
+      // Kalau hadiah belum tersedia
+      hadiahBtn.href = "nolucky.html";
+    }
+  })
+  .catch(err => {
+    console.error("Gagal memuat hadiah.json:", err);
+    document.getElementById('btnHadiah').href = "nolucky.html";
+  });
   </script>
 </body>
   </html>
