@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YorPedia - Token Listrik</title>
+<style>
+  body { font-family: 'Poppins', sans-serif; background-color: #f5f5f5; margin:0; padding:0; }
+  header { display:flex; align-items:center; background:#fff; padding:10px 15px; box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+  .btn-back { display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#f0f0f0; border-radius:8px; text-decoration:none; margin-right:10px; transition:0.2s;}
+  .btn-back:hover{background:#e0e0e0;}
+  header h1{font-size:1.2em;margin:0;color:#222;}
+  .container{max-width:600px;margin:30px auto;background:#fff;padding:25px;border-radius:15px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+  label{display:block;margin-top:15px;font-weight:600;color:#444;}
+  input,select,textarea{width:100%;padding:12px;margin-top:8px;border:1px solid #ccc;border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;box-sizing:border-box;}
+  textarea{resize:none;min-height:80px;}
+  button{width:100%;background:#e53935;color:#fff;border:none;padding:12px;border-radius:10px;font-size:1em;font-weight:600;margin-top:25px;cursor:pointer;transition:0.2s;}
+  button:hover{background:#d32f2f;}
+  button:disabled{background:#ccc; cursor:not-allowed;}
+  .total-box{margin-top:20px;padding:15px;background:#f9f9f9;border-radius:10px;font-weight:600;text-align:center;color:#333;border:1px solid #ddd;}
+  .popup{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:999;}
+  .popup-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:400px;position:relative;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);animation:fadeIn 0.3s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:scale(0.9);} to{opacity:1;transform:scale(1);}}
+  .close{position:absolute;right:15px;top:10px;cursor:pointer;font-weight:bold;font-size:20px;color:#555;}
+  .pay-method{text-align:left;margin-top:15px;}
+  .confirm-btn{background:#4caf50;color:#fff;border:none;padding:10px;border-radius:10px;width:100%;font-weight:600;margin-top:15px;cursor:pointer;}
+  .confirm-btn:hover{background:#43a047;}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="btn-back" title="Kembali">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#333">
+      <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+    </svg>
+  </a>
+  <h1>Token Listrik</h1>
+</header>
+
+<div class="container">
+  <form id="formWA">
+    <label>Nama Lengkap</label>
+    <input type="text" id="nama" placeholder="Contoh: Al Hanif Ashabillah" required>
+
+    <label>Nomor WhatsApp</label>
+    <input type="tel" id="wa" required>
+
+    <label>Nomor Token</label>
+    <input type="tel" id="idgame" placeholder="Contoh: 56230892608" required>
+
+    <label>Nama Token</label>
+    <input type="text" id="nickname" placeholder="Opsional">
+
+    <label>Paket Top Up</label>
+    <select id="paket" required>
+      <option value="">Pilih Paket</option>
+      <option value="7650">Rp5.000</option>
+      <option value="12650">Rp10.000</option>
+      <option value="17650">Rp15.000</option>
+      <option value="21420">Rp20.000</option>
+      <option value="51420">Rp50.000</option>
+      <option value="101420">Rp100.000</option>
+      <option value="201650">Rp200.000</option>
+      <option value="501650">Rp500.000</option>
+      <option value="1001980">Rp1.000.000</option>
+      <option value="5002000">Rp5.000.000</option>
+
+    </select>
+
+    <label>Catatan Tambahan (Opsional)</label>
+    <textarea id="catatan"></textarea>
+
+    <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>
+
+    <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
+  </form>
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <span class="close" onclick="tutupPopup()">❌</span>
+    <h3>Pilih Metode Pembayaran</h3>
+    <div class="pay-method">
+      <b>QRIS:</b><br><img src="qris.png" alt="Kode Qris" width="150"><br><br>
+      <b>DANA:</b> 0831-7715-2459 <small>(a.n MADAM)</small><br><br>
+      <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>
+    </div>
+    <p style="margin-top:20px;font-weight:600;color:#333;">
+      Total yang harus dibayar: <span id="totalBayar">Rp0</span>
+    </p>
+    <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>
+  </div>
+</div>
+
+<script>
+const namaInput = document.getElementById('nama');
+const waInput = document.getElementById('wa');
+const idGameInput = document.getElementById('idgame');
+const paketSelect = document.getElementById('paket');
+const btnBayar = document.getElementById('btnBayar');
+const popup = document.getElementById('popup');
+const totalHarga = document.getElementById('totalHarga');
+const totalBayar = document.getElementById('totalBayar');
+
+function hitungTotal() {
+  const harga = parseInt(paketSelect.value) || 0;
+  totalHarga.textContent = "Rp" + harga.toLocaleString("id-ID");
+  totalBayar.textContent = totalHarga.textContent;
+}
+
+function checkForm() {
+  const nama = namaInput.value.trim();
+  const wa = waInput.value.trim();
+  const idGame = idGameInput.value.trim();
+  const paket = paketSelect.value;
+
+  const idValid = idGame.length >=8 && idGame.length <=11 && /^[0-9]+$/.test(idGame);
+  const waValid = wa.length >= 10 && /^[0-9]+$/.test(wa);
+
+  btnBayar.disabled = !(nama && idValid && paket && waValid);
+  hitungTotal();
+}
+
+document.querySelectorAll('#formWA input, #formWA select').forEach(el=>{
+  el.addEventListener('input', checkForm);
+});
+
+btnBayar.onclick = () => { popup.style.display = 'flex'; };
+function tutupPopup(){ popup.style.display = 'none'; }
+
+function kirimWA(){
+  const nama = namaInput.value;
+  const wa = waInput.value;
+  const idgame = idGameInput.value;
+  const nickname = document.getElementById('nickname').value || "-";
+  const paketText = paketSelect.options[paketSelect.selectedIndex].text;
+  const catatan = document.getElementById('catatan').value || "-";
+  const total = totalHarga.textContent;
+
+  const pesan = `*Token Listrik*\n\n`+
+                `*Nama:* ${nama}\n`+
+                `*WhatsApp:* ${wa}\n`+
+                `*No. Token:* ${idgame}\n`+
+                `*Nama Token:* ${nickname}\n`+
+                `*Jumlah:* ${paketText}\n`+
+                `*Total Bayar:* ${total}\n`+
+                `*Catatan:* ${catatan}`;
+
+  window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
+}
+</script>
+</body>
+</html>
