@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+  <!-- pepal -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,7 +62,7 @@
     <label>Catatan Tambahan (Opsional)</label>
     <textarea id="catatan"></textarea>
 
-    <div class="total-box">Total: <span id="totalHarga">Rp18.460</span></div>
+    <div class="total-box">Total: <span id="totalHarga">Rp18.700</span></div>
 
     <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
   </form>
@@ -77,7 +78,7 @@
       <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>
     </div>
     <p style="margin-top:20px;font-weight:600;color:#333;">
-      Total yang harus dibayar: <span id="totalBayar">Rp18.460</span>
+      Total yang harus dibayar: <span id="totalBayar">Rp18.700</span>
     </p>
     <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>
   </div>
@@ -97,7 +98,8 @@ const totalBayar = document.getElementById('totalBayar');
 
 function hitungTotal() {
   let jumlah = parseInt(jumlahInput.value) || 0;
-  let total = jumlah * 18460;
+  let hargaPerDollar = (jumlah >= 1 && jumlah <= 15) ? 18700 : 17900;
+  let total = jumlah * hargaPerDollar;
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
   totalBayar.textContent = totalHarga.textContent;
 }
