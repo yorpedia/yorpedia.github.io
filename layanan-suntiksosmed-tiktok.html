@@ -1,4 +1,3 @@
-<!-- ah memek lah -->
 <!DOCTYPE html>  
 <html lang="id">  
 <head>  
@@ -13,7 +12,7 @@
   header h1{font-size:1.2em;margin:0;color:#222;}  
   .container{max-width:600px;margin:30px auto;background:#fff;padding:25px;border-radius:15px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}  
   label{display:block;margin-top:15px;font-weight:600;color:#444;}  
-  input,textarea{width:100%;padding:12px;margin-top:8px;border:1px solid #ccc;border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;box-sizing:border-box;}  
+  input,select,textarea{width:100%;padding:12px;margin-top:8px;border:1px solid #ccc;border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;box-sizing:border-box;}  
   textarea{resize:none;min-height:80px;}  
   button{width:100%;background:#e53935;color:#fff;border:none;padding:12px;border-radius:10px;font-size:1em;font-weight:600;margin-top:25px;cursor:pointer;transition:0.2s;}  
   button:hover{background:#d32f2f;}  
@@ -30,11 +29,196 @@
   .checkbox-area{margin-top:20px;border:1px solid #ddd;padding:15px;border-radius:10px;background:#fafafa;}  
   .checkbox-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}  
   .checkbox-item input{margin-top:4px;}  
-  .row-2col{display:flex;gap:10px;flex-wrap:wrap;}  
-  .row-3col{display:flex;gap:10px;flex-wrap:wrap;}  
-  .row-2col > div, .row-3col > div{flex:1;min-width:150px;}  
+  .hidden{display:none;}  
 </style>  
 </head>  
+<body>  
+<header>  
+  <a href="index.html" class="btn-back" title="Kembali">  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#333">  
+      <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>  
+    </svg>  
+  </a>  
+  <h1>Suntik Tiktok</h1>  
+</header>  
+  
+<div class="container">  
+  <form id="formTikTok">  
+    <label>Nama Lengkap</label>  
+    <input type="text" id="nama" placeholder="Contoh: Dutha Chandra" required>  
+  
+    <label>Nomor WhatsApp</label>  
+    <input type="tel" id="wa" required>  
+
+    <label>Kategori</label>
+    <select id="kategori" required>
+      <option value="">Pilih Kategori</option>
+      <option value="followers">Followers</option>
+      <option value="likes">Likes</option>
+      <option value="views">Views</option>
+    </select>
+
+    <div id="formFollowers" class="hidden">
+      <label>Akun TikTok</label>
+      <input type="text" id="tiktok" placeholder="Contoh: @yorpedia.tiktok123">
+      <label>Jumlah Followers</label>
+      <input type="number" id="followers" min="100" max="1000000" placeholder="Minimal 100">
+    </div>
+
+    <div id="formLikes" class="hidden">
+      <label>Link Video</label>
+      <input type="url" id="linkLikes" placeholder="https://www.tiktok.com/...">
+      <label>Jumlah Likes</label>
+      <input type="number" id="likes" min="50" max="10000" placeholder="Minimal 50">
+    </div>
+
+    <div id="formViews" class="hidden">
+      <label>Link Video</label>
+      <input type="url" id="linkViews" placeholder="https://www.tiktok.com/...">
+      <label>Jumlah Views</label>
+      <input type="number" id="views" min="2000" max="5000000" placeholder="Minimal 2000">
+    </div>
+  
+    <label>Kode Promo</label>  
+    <input type="text" id="promo" placeholder="Opsional">  
+    <div id="promoMsg" class="promo-invalid"></div>  
+  
+    <div class="checkbox-area">  
+      <div class="checkbox-item">  
+        <input type="checkbox" id="check1">  
+        <label for="check1">Saya tidak memprivasi akun TikTok saya</label>  
+      </div>  
+      <div class="checkbox-item">  
+        <input type="checkbox" id="check2">  
+        <label for="check2">Data yang saya isi benar</label>  
+      </div>  
+    </div>  
+  
+    <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>  
+  
+    <label>Catatan Tambahan (Opsional)</label>  
+    <textarea id="catatan"></textarea>  
+  
+    <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>  
+  </form>  
+</div>  
+  
+<div class="popup" id="popup">  
+  <div class="popup-content">  
+    <span class="close" onclick="tutupPopup()">❌</span>  
+    <h3>Pilih Metode Pembayaran</h3>  
+    <div class="pay-method">  
+      <b>QRIS:</b><br><img src="qris.png" alt="Kode Qris" width="150"><br><br>  
+      <b>DANA:</b> 0831-7715-2459 <small>(a.n MADAM)</small><br><br>  
+      <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>  
+    </div>  
+    <p style="margin-top:20px;font-weight:600;color:#333;">  
+      Total yang harus dibayar: <span id="totalBayar">Rp 0</span>  
+    </p>  
+    <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>  
+  </div>  
+</div>  
+  
+<script>  
+const kategori = document.getElementById("kategori");
+const formFollowers = document.getElementById("formFollowers");
+const formLikes = document.getElementById("formLikes");
+const formViews = document.getElementById("formViews");
+
+kategori.addEventListener("change", () => {
+  formFollowers.classList.add("hidden");
+  formLikes.classList.add("hidden");
+  formViews.classList.add("hidden");
+  if (kategori.value === "followers") formFollowers.classList.remove("hidden");
+  else if (kategori.value === "likes") formLikes.classList.remove("hidden");
+  else if (kategori.value === "views") formViews.classList.remove("hidden");
+});
+
+const promoInput = document.getElementById('promo');  
+const promoMsg = document.getElementById('promoMsg');  
+const btnBayar = document.getElementById('btnBayar');  
+const popup = document.getElementById('popup');  
+const totalHarga = document.getElementById('totalHarga');  
+const totalBayar = document.getElementById('totalBayar');  
+  
+let promoList = [];  
+let diskon = 0;  
+  
+fetch('promo.json')  
+  .then(res => res.json())  
+  .then(data => { promoList = data.promo; })  
+  .catch(() => {});  
+  
+function cekPromo() {  
+  const kode = promoInput.value.trim().toUpperCase();  
+  const promo = promoList.find(p => p.code === kode);  
+  if(promo){  
+    diskon = promo.discount;  
+    promoMsg.textContent = `Kode promo berhasil! Diskon ${diskon*100}% diterapkan.`;  
+    promoMsg.style.color = "green";  
+  } else if(kode !== ""){  
+    diskon = 0;  
+    promoMsg.textContent = "Kode promo tidak valid.";  
+    promoMsg.style.color = "#e53935";  
+  } else {  
+    diskon = 0;  
+    promoMsg.textContent = "";  
+  }  
+}  
+  
+function hitungTotal() {  
+  cekPromo();  
+  const followers = parseInt(document.getElementById('followers')?.value) || 0;  
+  const likes = parseInt(document.getElementById('likes')?.value) || 0;  
+  const views = parseInt(document.getElementById('views')?.value) || 0;  
+  
+  let total = 0;  
+  if (followers >= 100) total += followers * 30;  
+  if (likes >= 50) total += likes * 23;  
+  if (views >= 2000) total += Math.floor(views / 2) * 1;  
+  
+  total = total * (1 - diskon);  
+  totalHarga.textContent = "Rp " + total.toLocaleString("id-ID");  
+  totalBayar.textContent = totalHarga.textContent;  
+  
+  return total;  
+}  
+  
+function checkForm() {  
+  const nama = document.getElementById('nama').value.trim();  
+  const wa = document.getElementById('wa').value.trim();  
+  const check1 = document.getElementById('check1').checked;  
+  const check2 = document.getElementById('check2').checked;  
+  const total = hitungTotal();  
+  btnBayar.disabled = !(nama && wa && check1 && check2 && total > 0);  
+}  
+  
+document.getElementById('formTikTok').addEventListener('input', checkForm);  
+promoInput.addEventListener('input', hitungTotal);  
+  
+btnBayar.onclick = () => { popup.style.display = 'flex'; };  
+function tutupPopup(){ popup.style.display = 'none'; }  
+  
+function kirimWA(){  
+  const nama = document.getElementById('nama').value;  
+  const wa = document.getElementById('wa').value;  
+  const kategoriVal = kategori.value || "-";  
+  const tiktok = document.getElementById('tiktok')?.value || "-";  
+  const linkLikes = document.getElementById('linkLikes')?.value || "-";  
+  const linkViews = document.getElementById('linkViews')?.value || "-";  
+  const followers = document.getElementById('followers')?.value || "-";  
+  const likes = document.getElementById('likes')?.value || "-";  
+  const views = document.getElementById('views')?.value || "-";  
+  const catatan = document.getElementById('catatan').value || "-";  
+  const total = totalHarga.textContent;  
+  const kodePromo = promoInput.value.trim() || "-";  
+  
+  const pesan = `*Suntik Tiktok*\nKategori: ${kategoriVal}\nNama: ${nama}\nWhatsApp: ${wa}\nAkun TikTok: ${tiktok}\nLink Video: ${linkLikes || linkViews}\nFollowers: ${followers}\nLikes: ${likes}\nViews: ${views}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;  
+  window.open(`https://wa.me/6288287091943?text=${encodeURIComponent(pesan)}`, "_blank");  
+}  
+</script>  
+</body>  
+</html></head>  
 <body>  
 <header>  
   <a href="index.html" class="btn-back" title="Kembali">  
