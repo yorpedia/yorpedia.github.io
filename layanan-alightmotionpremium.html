@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YorPedia - Alight Motion Premium</title>
+<style>
+  body { font-family: 'Poppins', sans-serif; background-color: #f5f5f5; margin:0; padding:0; }
+  header { display:flex; align-items:center; background:#fff; padding:10px 15px; box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+  .btn-back { display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; background:#f0f0f0; border-radius:8px; text-decoration:none; margin-right:10px; transition:0.2s;}
+  .btn-back:hover{background:#e0e0e0;}
+  header h1{font-size:1.2em;margin:0;color:#222;}
+  .container{max-width:600px;margin:30px auto;background:#fff;padding:25px;border-radius:15px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+  label{display:block;margin-top:15px;font-weight:600;color:#444;}
+  input,select,textarea{width:100%;padding:12px;margin-top:8px;border:1px solid #ccc;border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;box-sizing:border-box;}
+  textarea{resize:none;min-height:80px;}
+  button{width:100%;background:#e53935;color:#fff;border:none;padding:12px;border-radius:10px;font-size:1em;font-weight:600;margin-top:25px;cursor:pointer;transition:0.2s;}
+  button:hover{background:#d32f2f;}
+  button:disabled{background:#ccc; cursor:not-allowed;}
+  .total-box{margin-top:20px;padding:15px;background:#f9f9f9;border-radius:10px;font-weight:600;text-align:center;color:#333;border:1px solid #ddd;}
+  .promo-invalid{font-size:0.9em;margin-top:5px;}
+  .popup{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:999;}
+  .popup-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:400px;position:relative;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);animation:fadeIn 0.3s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:scale(0.9);} to{opacity:1;transform:scale(1);}}
+  .close{position:absolute;right:15px;top:10px;cursor:pointer;font-weight:bold;font-size:20px;color:#555;}
+  .pay-method{text-align:left;margin-top:15px;}
+  .confirm-btn{background:#4caf50;color:#fff;border:none;padding:10px;border-radius:10px;width:100%;font-weight:600;margin-top:15px;cursor:pointer;}
+  .confirm-btn:hover{background:#43a047;}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="btn-back" title="Kembali">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#333">
+      <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+    </svg>
+  </a>
+  <h1>Alight Motion Premium</h1>
+</header>
+
+<div class="container">
+  <form id="formWA">
+    <label>Nama Lengkap</label>
+    <input type="text" id="nama" placeholder="Contoh: Maike Rendi" required>
+
+    <label>Nomor WhatsApp</label>
+    <input type="tel" id="wa" required>
+
+    <label>Email Alight Motion</label>
+    <input type="email" id="email" placeholder="Contoh: yorpedia@gmail.com" required>
+
+    <label>Durasi</label>
+    <select id="durasi" required>
+      <option value="">Pilih Durasi</option>
+      <option value="6100">Rp6100 / 1thn</option>
+    </select>
+
+    <label>Kode Promo</label>
+    <input type="text" id="promo" placeholder="Opsional">
+    <div id="promoMsg" class="promo-invalid"></div>
+
+    <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>
+
+    <label>Catatan Tambahan (Opsional)</label>
+    <textarea id="catatan"></textarea>
+
+    <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
+  </form>
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <span class="close" onclick="tutupPopup()">❌</span>
+    <h3>Pilih Metode Pembayaran</h3>
+    <div class="pay-method">
+      <b>QRIS:</b><br><img src="qris.png" alt="Kode Qris" width="150"><br><br>
+      <b>DANA:</b> 0831-7715-2459 <small>(a.n MADAM)</small><br><br>
+      <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>
+    </div>
+    <p style="margin-top:20px;font-weight:600;color:#333;">
+      Total yang harus dibayar: <span id="totalBayar">Rp0</span>
+    </p>
+    <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>
+  </div>
+</div>
+
+<script>
+const promoInput = document.getElementById('promo');
+const promoMsg = document.getElementById('promoMsg');
+const btnBayar = document.getElementById('btnBayar');
+const popup = document.getElementById('popup');
+const totalHarga = document.getElementById('totalHarga');
+const totalBayar = document.getElementById('totalBayar');
+const form = document.getElementById('formWA');
+
+let diskon = 0;
+let promoList = [];
+
+// Ambil daftar promo dari file JSON jika ada
+fetch('promo.json')
+  .then(res => res.json())
+  .then(data => { promoList = data.promo; })
+  .catch(() => {});
+
+function cekPromo() {
+  const kode = promoInput.value.trim().toUpperCase();
+  const promo = promoList.find(p => p.code === kode);
+  if(promo){
+    diskon = promo.discount;
+    promoMsg.textContent = `Kode promo berhasil! Diskon ${diskon*100}% diterapkan.`;
+    promoMsg.style.color = "green";
+  } else if(kode !== ""){
+    diskon = 0;
+    promoMsg.textContent = "Kode promo tidak valid.";
+    promoMsg.style.color = "#e53935";
+  } else {
+    diskon = 0;
+    promoMsg.textContent = "";
+  }
+}
+
+function hitungTotal() {
+  cekPromo();
+  let durasiVal = parseInt(document.getElementById('durasi').value) || 0;
+  let total = durasiVal * (1 - diskon);
+  totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
+  totalBayar.textContent = totalHarga.textContent;
+  return total;
+}
+
+function checkForm() {
+  const nama = document.getElementById('nama').value.trim();
+  const wa = document.getElementById('wa').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const durasi = document.getElementById('durasi').value;
+
+  btnBayar.disabled = !(nama && wa && email && durasi);
+  hitungTotal();
+}
+
+form.addEventListener('input', checkForm);
+promoInput.addEventListener('input', hitungTotal);
+
+btnBayar.onclick = () => { popup.style.display = 'flex'; };
+function tutupPopup(){ popup.style.display = 'none'; }
+
+function kirimWA(){
+  const nama = document.getElementById('nama').value;
+  const wa = document.getElementById('wa').value;
+  const email = document.getElementById('email').value;
+  const durasi = document.getElementById('durasi').options[document.getElementById('durasi').selectedIndex].text;
+  const catatan = document.getElementById('catatan').value || "-";
+  const total = totalHarga.textContent;
+  const kodePromo = promoInput.value.trim() || "-";
+
+  const pesan = `*Alight Motion Premium*\nNama: ${nama}\nWhatsApp: ${wa}\nEmail AM: ${email}\nDurasi: ${durasi}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;
+  window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
+}
+
+// Inisialisasi awal
+hitungTotal();
+checkForm();
+</script>
+</body>
+</html>
