@@ -60,7 +60,7 @@
     <input type="text" id="promo" placeholder="Opsional">
     <div id="promoMsg" class="promo-invalid"></div>
 
-    <div class="total-box">Total: <span id="totalHarga">Rp7.950</span></div>
+    <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>
 
     <label>Catatan Tambahan (Opsional)</label>
     <textarea id="catatan"></textarea>
@@ -79,7 +79,7 @@
       <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>
     </div>
     <p style="margin-top:20px;font-weight:600;color:#333;">
-      Total yang harus dibayar: <span id="totalBayar">Rp7.950</span>
+      Total yang harus dibayar: <span id="totalBayar">Rp0</span>
     </p>
     <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>
   </div>
@@ -93,6 +93,7 @@ const popup = document.getElementById('popup');
 const totalHarga = document.getElementById('totalHarga');
 const totalBayar = document.getElementById('totalBayar');
 const form = document.getElementById('formWA');
+const durasiSelect = document.getElementById('durasi');
 
 let diskon = 0;
 let promoList = [];
@@ -105,11 +106,11 @@ fetch('promo.json')
 function cekPromo() {
   const kode = promoInput.value.trim().toUpperCase();
   const promo = promoList.find(p => p.code === kode);
-  if(promo){
+  if (promo) {
     diskon = promo.discount;
-    promoMsg.textContent = `Kode promo berhasil! Diskon ${diskon*100}% diterapkan.`;
+    promoMsg.textContent = `Kode promo berhasil! Diskon ${diskon * 100}% diterapkan.`;
     promoMsg.style.color = "green";
-  } else if(kode !== ""){
+  } else if (kode !== "") {
     diskon = 0;
     promoMsg.textContent = "Kode promo tidak valid.";
     promoMsg.style.color = "#e53935";
@@ -121,7 +122,8 @@ function cekPromo() {
 
 function hitungTotal() {
   cekPromo();
-  let total = 7950 * (1 - diskon);
+  const durasiVal = parseInt(durasiSelect.value) || 0;
+  const total = durasiVal * (1 - diskon);
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
   totalBayar.textContent = totalHarga.textContent;
   return total;
@@ -131,23 +133,25 @@ function checkForm() {
   const nama = document.getElementById('nama').value.trim();
   const wa = document.getElementById('wa').value.trim();
   const email = document.getElementById('email').value.trim();
-  const durasi = document.getElementById('durasi').value;
+  const durasi = durasiSelect.value;
 
   btnBayar.disabled = !(nama && wa && email && durasi);
   hitungTotal();
 }
 
+// Event listener agar total selalu update otomatis
 form.addEventListener('input', checkForm);
+durasiSelect.addEventListener('change', hitungTotal);
 promoInput.addEventListener('input', hitungTotal);
 
 btnBayar.onclick = () => { popup.style.display = 'flex'; };
-function tutupPopup(){ popup.style.display = 'none'; }
+function tutupPopup() { popup.style.display = 'none'; }
 
-function kirimWA(){
+function kirimWA() {
   const nama = document.getElementById('nama').value;
   const wa = document.getElementById('wa').value;
   const email = document.getElementById('email').value;
-  const durasi = document.getElementById('durasi').options[document.getElementById('durasi').selectedIndex].text;
+  const durasi = durasiSelect.options[durasiSelect.selectedIndex].text;
   const catatan = document.getElementById('catatan').value || "-";
   const total = totalHarga.textContent;
   const kodePromo = promoInput.value.trim() || "-";
@@ -155,6 +159,10 @@ function kirimWA(){
   const pesan = `*Youtube Premium*\nNama: ${nama}\nWhatsApp: ${wa}\nEmail Youtube: ${email}\nDurasi: ${durasi}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;
   window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
 }
+
+// Inisialisasi awal
+hitungTotal();
+checkForm();
 </script>
 </body>
 </html>
