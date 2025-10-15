@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YorPedia - Capcut Pro</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0; padding: 0;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 10px 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px; height: 38px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-right: 10px;
+    transition: 0.2s;
+  }
+  .btn-back:hover { background: #e0e0e0; }
+
+  header h1 {
+    font-size: 1.2em;
+    margin: 0;
+    color: #222;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 15px;
+    color: #333;
+  }
+
+  .field {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .field input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #444;
+    background: #fafafa;
+  }
+
+  .copy-btn {
+    margin-left: 10px;
+    background: #d9d9d9;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .copy-btn:hover { background: #bfbfbf; }
+
+  .copy-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: #333;
+  }
+
+  .deskripsi {
+    margin-top: 30px;
+    line-height: 1.6;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="btn-back" title="Kembali">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#333">
+      <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+    </svg>
+  </a>
+  <h1>Capcut Pro 1 Bulan</h1>
+</header>
+
+<div class="container">
+  <label>Email</label>
+  <div class="field">
+    <input type="text" id="email" readonly value="evelituke@aikoreaedu.com">
+    <button class="copy-btn" onclick="salin('email')" title="Salin">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5zm0 16H8V7h11v14z"/>
+      </svg>
+    </button>
+  </div>
+
+  <label>Password</label>
+  <div class="field">
+    <input type="text" id="password" readonly value="masuk123">
+    <button class="copy-btn" onclick="salin('password')" title="Salin">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v16h14c1.1 0 2-.9 2-2V5zm0 16H8V7h11v14z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="deskripsi">
+    <p>1. Apabila durasi tidak 1 bulan, cobalah login melalui web dahulu.</p>
+    <p>2. Harap cek dahulu expired akun tersebut pas 1 bulan/tahun atau tidak.</p>
+    <p>3. Jika awalnya limit, bisa reset password dahulu.</p>
+    <p>4. Usahakan copy paste email dan password saat login, dan jangan logout setelah berhasil login agar tidak terjadi "Device Limit".</p>
+    <p>5. Jika ter-logout sendiri, login kembali saja, jika terdapat tulisan "Incorr" tunggu dahulu 10-20 menit.</p>
+    <p>6. Segera hubungi <a href="https://wa.me/6283177152459?text=done+min">admin</a> jika berhasil atau terkendala.</p>
+  </div>
+</div>
+
+<script>
+function salin(id) {
+  const input = document.getElementById(id);
+  navigator.clipboard.writeText(input.value).then(() => {
+    alert(id.charAt(0).toUpperCase() + id.slice(1) + " berhasil disalin!");
+  });
+}
+</script>
+</body>
+</html>
