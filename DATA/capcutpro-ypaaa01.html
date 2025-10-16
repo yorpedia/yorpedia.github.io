@@ -97,6 +97,99 @@
     line-height: 1.6;
     color: #333;
   }
+
+  .deskripsi a {
+    color: #0077cc;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .deskripsi a:hover { text-decoration: underline; }
+
+  /* Popup */
+  .popup-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+  }
+
+  .popup {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    width: 85%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+  .popup h3 {
+    margin-top: 0;
+    color: #222;
+  }
+
+  /* Tombol Close */
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .close-btn:hover {
+    background: #f0f0f0;
+  }
+
+  .close-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: #555;
+  }
+
+  .popup-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  .popup-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .done-btn { background: #4CAF50; }
+  .done-btn:hover { background: #43A047; }
+
+  .error-btn { background: #E53935; }
+  .error-btn:hover { background: #D32F2F; }
+
+  .popup-btn svg {
+    width: 16px; height: 16px;
+    fill: #fff;
+  }
+
+  .popup-btn circle {
+    fill: #fff;
+  }
 </style>
 </head>
 <body>
@@ -136,7 +229,27 @@
     <p>3. Jika awalnya limit, bisa reset password dahulu.</p>
     <p>4. Usahakan copy paste email dan password saat login, dan jangan logout setelah berhasil login agar tidak terjadi "Device Limit".</p>
     <p>5. Jika ter-logout sendiri, login kembali saja, jika terdapat tulisan "Incorr" tunggu dahulu 10-20 menit.</p>
-    <p>6. Segera hubungi <a href="https://wa.me/6283177152459?text=%20">admin</a> jika berhasil atau terkendala.</p>
+    <p>6. Konfirmasi <a href="#" id="adminLink">di sini</a> jika berhasil atau terkendala.</p>
+  </div>
+</div>
+
+<!-- Popup -->
+<div class="popup-bg" id="popup">
+  <div class="popup">
+    <button class="close-btn" id="closePopup" title="Tutup">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    <h3>Pilih status pesanan</h3>
+    <div class="popup-buttons">
+      <button class="popup-btn done-btn" onclick="window.location.href='https://wa.me/6283177152459?text=done+min'">
+        Pesanan Selesai
+      </button>
+      <button class="popup-btn error-btn" onclick="window.location.href='https://wa.me/6283177152459?text=ada+kendala'">
+       Ada Kendala
+      </button>
+    </div>
   </div>
 </div>
 
@@ -147,6 +260,23 @@ function salin(id) {
     alert(id.charAt(0).toUpperCase() + id.slice(1) + " berhasil disalin!");
   });
 }
+
+const adminLink = document.getElementById('adminLink');
+const popup = document.getElementById('popup');
+const closePopup = document.getElementById('closePopup');
+
+adminLink.addEventListener('click', e => {
+  e.preventDefault();
+  popup.style.display = 'flex';
+});
+
+closePopup.addEventListener('click', () => {
+  popup.style.display = 'none';
+});
+
+popup.addEventListener('click', e => {
+  if (e.target === popup) popup.style.display = 'none';
+});
 </script>
 </body>
 </html>
