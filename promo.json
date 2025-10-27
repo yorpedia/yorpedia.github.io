@@ -1,7 +1,5 @@
 {
   "promo": [
-    {"code": "YORFIRST", "discount": 0.02},
-    {"code": "TGTG", "discount": 0.3},
-    {"code": "SUZA", "discount": 0.5}
+    {"code": "YORFIRST", "discount": 0.02}
   ]
 }
