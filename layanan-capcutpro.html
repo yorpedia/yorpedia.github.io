@@ -98,20 +98,34 @@ const form = document.getElementById('formWA');
 let diskon = 0;
 let promoList = [];
 
-// Ambil daftar promo dari file JSON jika ada
+// Ambil promo dari JSON (jika ada)
 fetch('promo.json')
   .then(res => res.json())
   .then(data => { promoList = data.promo; })
   .catch(() => {});
 
+// =============================
+//   CEK PROMO (Termasuk CAPCUT8K)
+// =============================
 function cekPromo() {
   const kode = promoInput.value.trim().toUpperCase();
-  const promo = promoList.find(p => p.code === kode);
-  if(promo){
-    diskon = promo.discount;
-    promoMsg.textContent = `Kode promo berhasil! Diskon ${diskon*100}% diterapkan.`;
+
+  // Promo Khusus CAPCUT8K → Harga flat 8000
+  if (kode === "CAPCUT8K") {
+    diskon = -1; 
+    promoMsg.textContent = "Kode promo berhasil! Harga khusus Rp8.000.";
     promoMsg.style.color = "green";
-  } else if(kode !== ""){
+    return;
+  }
+
+  // Promo dari promo.json
+  const promo = promoList.find(p => p.code === kode);
+
+  if (promo) {
+    diskon = promo.discount;
+    promoMsg.textContent = `Kode promo berhasil! Diskon ${diskon * 100}% diterapkan.`;
+    promoMsg.style.color = "green";
+  } else if (kode !== "") {
     diskon = 0;
     promoMsg.textContent = "Kode promo tidak valid.";
     promoMsg.style.color = "#e53935";
@@ -121,10 +135,21 @@ function cekPromo() {
   }
 }
 
+// =============================
+//   HITUNG TOTAL
+// =============================
 function hitungTotal() {
   cekPromo();
   let durasiVal = parseInt(document.getElementById('durasi').value) || 0;
-  let total = durasiVal * (1 - diskon);
+
+  let total = 0;
+
+  if (diskon === -1) {
+    total = 8000; // harga khusus CAPCUT8K
+  } else {
+    total = durasiVal * (1 - diskon);
+  }
+
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
   totalBayar.textContent = totalHarga.textContent;
   return total;
@@ -159,7 +184,6 @@ function kirimWA(){
   window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
 }
 
-// Inisialisasi awal
 hitungTotal();
 checkForm();
 </script>
