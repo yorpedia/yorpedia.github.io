@@ -52,7 +52,7 @@
     <label>Durasi</label>
     <select id="durasi" required>
       <option value="" selected disabled>-- Pilih Durasi --</option>
-      <option value="4999" diabled>Rp4.999 / 14hr</option>
+      <option value="4999" disabled>Rp4.999 / 14hr</option>
       <option value="4862" disabled>Rp4.862 / 1bln</option>
       <option value="17250">Rp17.250 / 1bln ⚡</option>
       <option value="54790">Rp54.790 / 1thn</option>
@@ -106,20 +106,28 @@ fetch('promo.json')
   .catch(() => {});
 
 // =============================
-//   CEK PROMO (Termasuk CAPCUT8K)
+//   CEK PROMO (CAPCUT8K hanya untuk 17.250)
 // =============================
 function cekPromo() {
   const kode = promoInput.value.trim().toUpperCase();
+  const durasiVal = parseInt(document.getElementById('durasi').value) || 0;
 
-  // Promo Khusus CAPCUT8K → Harga flat 8000
   if (kode === "CAPCUT8K") {
-    diskon = -1; 
-    promoMsg.textContent = "Kode promo berhasil! Harga khusus Rp8.000.";
-    promoMsg.style.color = "green";
+
+    if (durasiVal !== 17250) {
+      diskon = 0;
+      promoMsg.textContent = "Kode promo tidak valid.";
+      promoMsg.style.color = "#e53935";
+    } else {
+      diskon = -1;
+      promoMsg.textContent = "Kode promo berhasil! Harga khusus Rp8.000.";
+      promoMsg.style.color = "green";
+    }
+
     return;
   }
 
-  // Promo dari promo.json
+  // Promo lain dari promo.json
   const promo = promoList.find(p => p.code === kode);
 
   if (promo) {
