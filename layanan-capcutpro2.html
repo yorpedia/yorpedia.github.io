@@ -106,13 +106,13 @@ fetch('promo.json')
   .catch(() => {});
 
 // =============================
-//   CEK PROMO (CAPCUT8K hanya untuk 17.250)
+//   CEK PROMO (CAPCUT15K)
 // =============================
 function cekPromo() {
   const kode = promoInput.value.trim().toUpperCase();
   const durasiVal = parseInt(document.getElementById('durasi').value) || 0;
 
-  if (kode === "CAPCUT8K") {
+  if (kode === "CAPCUT15K") {
 
     if (durasiVal !== 17250) {
       diskon = 0;
@@ -120,7 +120,7 @@ function cekPromo() {
       promoMsg.style.color = "#e53935";
     } else {
       diskon = -1;
-      promoMsg.textContent = "Kode promo berhasil! Harga khusus Rp8.000.";
+      promoMsg.textContent = "Kode promo berhasil! Harga khusus Rp15.000.";
       promoMsg.style.color = "green";
     }
 
@@ -154,7 +154,7 @@ function hitungTotal() {
   let total = 0;
 
   if (diskon === -1) {
-    total = 8000; // harga khusus CAPCUT8K
+    total = 15000; // harga khusus CAPCUT15K
   } else {
     total = durasiVal * (1 - diskon);
   }
