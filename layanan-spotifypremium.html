@@ -57,6 +57,8 @@
       <option value="32000">Rp32.000 [Fam,Gar] / 2bln</option>
     </select>
 
+    <small id="warning7900" style="display:none;color:#e53935;font-size:0.85em;">Tidak direkomendasikan</small>
+
     <label>Kode Promo</label>
     <input type="text" id="promo" placeholder="Opsional">
     <div id="promoMsg" class="promo-invalid"></div>
@@ -94,11 +96,11 @@ const popup = document.getElementById('popup');
 const totalHarga = document.getElementById('totalHarga');
 const totalBayar = document.getElementById('totalBayar');
 const form = document.getElementById('formWA');
+const warning = document.getElementById('warning7900');
 
 let diskon = 0;
 let promoList = [];
 
-// Ambil daftar promo dari file JSON jika ada
 fetch('promo.json')
   .then(res => res.json())
   .then(data => { promoList = data.promo; })
@@ -140,6 +142,16 @@ function checkForm() {
   hitungTotal();
 }
 
+document.getElementById('durasi').addEventListener('change', () => {
+  let val = document.getElementById('durasi').value;
+  if (val === "7900") {
+    warning.style.display = "block";
+  } else {
+    warning.style.display = "none";
+  }
+  hitungTotal();
+});
+
 form.addEventListener('input', checkForm);
 promoInput.addEventListener('input', hitungTotal);
 
@@ -159,7 +171,6 @@ function kirimWA(){
   window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
 }
 
-// pepek
 hitungTotal();
 checkForm();
 </script>
