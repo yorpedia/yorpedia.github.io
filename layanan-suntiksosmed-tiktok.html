@@ -177,7 +177,7 @@ function hitungTotal() {
   if (likes >= 50) total += likes * 23;  
   if (views >= 2000) total += Math.floor(views / 2) * 1;  
   
-  total = total * (1 - diskon);  
+  total = total * (1 - diskon) + 250;  
   totalHarga.textContent = "Rp " + total.toLocaleString("id-ID");  
   totalBayar.textContent = totalHarga.textContent;  
   
