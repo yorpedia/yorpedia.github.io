@@ -141,7 +141,7 @@ function hitungTotal() {
   if (jumlahVal < 1) jumlahVal = 1;
   let total = durasiVal * jumlahVal * (1 - diskon);
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
-  totalBayar.textContent = totalHarga.textConten;
+  totalBayar.textContent = totalHarga.textContent;
   return total;
 }
 
