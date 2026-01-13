@@ -54,7 +54,10 @@
       <option value="">Pilih Durasi</option>
       <option value="6100">Rp6.100 / 1thn</option>
     </select>
-
+    
+    <label>Jumlah</label>
+    <input type="number" id="jumlah" value="1" min="1" required>
+    
     <label>Kode Promo</label>
     <input type="text" id="promo" placeholder="Opsional">
     <div id="promoMsg" class="promo-invalid"></div>
@@ -119,14 +122,18 @@ function cekPromo() {
   }
 }
 
+
 function hitungTotal() {
   cekPromo();
   let durasiVal = parseInt(document.getElementById('durasi').value) || 0;
-  let total = durasiVal * (1 - diskon);
+  let jumlahVal = parseInt(document.getElementById('jumlah').value) || 1;
+  if (jumlahVal < 1) jumlahVal = 1;
+  let total = durasiVal * jumlahVal * (1 - diskon);
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
-  totalBayar.textContent = totalHarga.textContent;
+  totalBayar.textContent = totalHarga.textConten;
   return total;
 }
+
 
 function checkForm() {
   const nama = document.getElementById('nama').value.trim();
