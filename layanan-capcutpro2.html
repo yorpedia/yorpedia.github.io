@@ -50,13 +50,14 @@
     <input type="email" id="email" placeholder="Contoh: yorpedia@gmail.com">
 
     <label>Durasi</label>
-    <select id="durasi" required>
-      
-      <option value="4900">Rp4.900 / 7hr</option>
-      <option value="9700">Rp9.700 / 1bln</option>
-      <option value="17200">Rp17.200 / 1bln ⚡</option>
-      <option value="54800">Rp54.800 / 1thn</option>
+    <select id="durasi" required> 
+      <option value="2000">Rp2.000 / 7hr</option>
+      <option value="9800">Rp9.800 / 1bln</option>
+      <option value="55000">Rp55.000 / 1thn</option>
     </select>
+
+<label>Jumlah</label>
+<input type="number" id="jumlah" value="1" min="1" required>
 
     <label>Kode Promo</label>
     <input type="text" id="promo" placeholder="Opsional">
@@ -136,14 +137,13 @@ function cekPromo() {
 function hitungTotal() {
   cekPromo();
   let durasiVal = parseInt(document.getElementById('durasi').value) || 0;
-
-  let total = 0;
-
-  if (diskon === -1) {
-    total = 8000; //pepek
-  } else {
-    total = durasiVal * (1 - diskon);
-  }
+  let jumlahVal = parseInt(document.getElementById('jumlah').value) || 1;
+  if (jumlahVal < 1) jumlahVal = 1;
+  let total = durasiVal * jumlahVal * (1 - diskon);
+  totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
+  totalBayar.textContent = totalHarga.textConten;
+  return total;
+}
 
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
   totalBayar.textContent = totalHarga.textContent;
