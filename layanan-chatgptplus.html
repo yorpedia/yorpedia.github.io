@@ -132,7 +132,7 @@ function hitungTotal() {
   if (jumlahVal < 1) jumlahVal = 1;
   let total = durasiVal * jumlahVal * (1 - diskon);
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
-  totalBayar.textContent = totalHarga.textConten;
+  totalBayar.textContent = totalHarga.textContent;
   return total;
 }
 
@@ -161,7 +161,7 @@ function kirimWA(){
   const total = totalHarga.textContent;
   const kodePromo = promoInput.value.trim() || "-";
 
-  const pesan = `*ChatGPT Plus*\nNama: ${nama}\nWhatsApp: ${wa}\nEmail: ${email}\nDurasi: ${durasi}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;
+  const pesan = `*ChatGPT Plus*\nNama: ${nama} (${jumlah}x)\nWhatsApp: ${wa}\nEmail: ${email}\nDurasi: ${durasi}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;
   window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
 }
 
