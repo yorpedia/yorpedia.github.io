@@ -139,6 +139,7 @@ function checkForm() {
   const wa = document.getElementById('wa').value.trim();
   const email = document.getElementById('email').value.trim();
   const durasi = document.getElementById('durasi').value;
+const jumlah = document.getElementById('jumlah').value.trim();
 
   btnBayar.disabled = !(nama && wa && email && durasi);
   hitungTotal();
