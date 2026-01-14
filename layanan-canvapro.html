@@ -20,18 +20,17 @@
   .total-box{margin-top:20px;padding:15px;background:#f9f9f9;border-radius:10px;font-weight:600;text-align:center;color:#333;border:1px solid #ddd;}
   .promo-invalid{font-size:0.9em;margin-top:5px;}
   .popup{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:999;}
-  .popup-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:400px;position:relative;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);animation:fadeIn 0.3s ease;}
-  @keyframes fadeIn{from{opacity:0;transform:scale(0.9);} to{opacity:1;transform:scale(1);}}
-  .close{position:absolute;right:15px;top:10px;cursor:pointer;font-weight:bold;font-size:20px;color:#555;}
+  .popup-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:400px;position:relative;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);}
+  .close{position:absolute;right:15px;top:10px;cursor:pointer;font-size:20px;}
   .pay-method{text-align:left;margin-top:15px;}
   .confirm-btn{background:#4caf50;color:#fff;border:none;padding:10px;border-radius:10px;width:100%;font-weight:600;margin-top:15px;cursor:pointer;}
-  .confirm-btn:hover{background:#43a047;}
 </style>
 </head>
+
 <body>
 <header>
-  <a href="index.html" class="btn-back" title="Kembali">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#333">
+  <a href="index.html" class="btn-back">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
       <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
     </svg>
   </a>
@@ -39,54 +38,52 @@
 </header>
 
 <div class="container">
-  <form id="formWA">
-    <label>Nama Lengkap</label>
-    <input type="text" id="nama" placeholder="Contoh: Wando Natansyah" required>
+<form id="formWA">
+  <label>Nama Lengkap</label>
+  <input type="text" id="nama" required>
 
-    <label>Nomor WhatsApp</label>
-    <input type="tel" id="wa" required>
+  <label>Nomor WhatsApp</label>
+  <input type="tel" id="wa" required>
 
-    <label>Email Canva</label>
-    <input type="email" id="email" placeholder="Contoh: yorpedia@gmail.com" required>
+  <label>Email Canva</label>
+  <input type="email" id="email" required>
 
-    <label>Durasi</label>
-    <select id="durasi" required>
-      <option value="">Pilih Durasi</option>
-      <option value="1400">Rp1.400 / 1bln</option>
-      <option value="2700">Rp2.700/ 2bln</option>
-      <option value="7200">Rp7.200 / 6bln</option>
-      <option value="13500">Rp13.500/ 1thn</option>
-    </select>
+  <label>Durasi</label>
+  <select id="durasi" required>
+    <option value="">Pilih Durasi</option>
+    <option value="1400">Rp1.400 / 1 Bulan</option>
+    <option value="2700">Rp2.700 / 2 Bulan</option>
+    <option value="7200">Rp7.200 / 6 Bulan</option>
+    <option value="13500">Rp13.500 / 1 Tahun</option>
+  </select>
 
-<label>Jumlah</label>
-<input type="number" id="jumlah" value="1" min="1" required>
+  <label>Jumlah</label>
+  <input type="number" id="jumlah" value="1" min="1" required>
 
-    <label>Kode Promo</label>
-    <input type="text" id="promo" placeholder="Opsional">
-    <div id="promoMsg" class="promo-invalid"></div>
+  <label>Kode Promo</label>
+  <input type="text" id="promo">
+  <div id="promoMsg" class="promo-invalid"></div>
 
-    <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>
+  <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>
 
-    <label>Catatan Tambahan (Opsional)</label>
-    <textarea id="catatan"></textarea>
+  <label>Catatan Tambahan</label>
+  <textarea id="catatan"></textarea>
 
-    <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
-  </form>
+  <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
+</form>
 </div>
 
 <div class="popup" id="popup">
   <div class="popup-content">
-    <span class="close" onclick="tutupPopup()">❌</span>
+    <span class="close" onclick="popup.style.display='none'">❌</span>
     <h3>Pilih Metode Pembayaran</h3>
     <div class="pay-method">
-      <b>QRIS:</b><br><img src="qris.png" alt="Kode Qris" width="150"><br><br>
-      <b>DANA:</b> 0831-7715-2459 <small>(a.n MADAM)</small><br><br>
-      <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>
+      <b>QRIS:</b><br><img src="qris.png" width="150"><br><br>
+      <b>DANA:</b> 0831-7715-2459<br>
+      <b>GOPAY:</b> 0831-7715-2459
     </div>
-    <p style="margin-top:20px;font-weight:600;color:#333;">
-      Total yang harus dibayar: <span id="totalBayar">Rp0</span>
-    </p>
-    <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>
+    <p><b>Total: <span id="totalBayar">Rp0</span></b></p>
+    <button class="confirm-btn" onclick="kirimWA()">Konfirmasi</button>
   </div>
 </div>
 
@@ -102,72 +99,64 @@ const form = document.getElementById('formWA');
 let diskon = 0;
 let promoList = [];
 
-// Ambil daftar promo dari file JSON jika ada
 fetch('promo.json')
-  .then(res => res.json())
-  .then(data => { promoList = data.promo; })
-  .catch(() => {});
+  .then(r => r.json())
+  .then(d => promoList = d.promo)
+  .catch(()=>{});
 
-function cekPromo() {
+function cekPromo(){
   const kode = promoInput.value.trim().toUpperCase();
-  const promo = promoList.find(p => p.code === kode);
-  if(promo){
-    diskon = promo.discount;
-    promoMsg.textContent = `Kode promo berhasil! Diskon ${diskon*100}% diterapkan.`;
+  const p = promoList.find(x => x.code === kode);
+  if(p){
+    diskon = p.discount;
+    promoMsg.textContent = `Promo aktif (${diskon*100}%)`;
     promoMsg.style.color = "green";
-  } else if(kode !== ""){
+  } else if(kode){
     diskon = 0;
-    promoMsg.textContent = "Kode promo tidak valid.";
-    promoMsg.style.color = "#e53935";
+    promoMsg.textContent = "Promo tidak valid";
+    promoMsg.style.color = "red";
   } else {
     diskon = 0;
     promoMsg.textContent = "";
   }
 }
 
-function hitungTotal() {
+function hitungTotal(){
   cekPromo();
-  let durasiVal = parseInt(document.getElementById('durasi').value) || 0;
-  let jumlahVal = parseInt(document.getElementById('jumlah').value) || 1;
-  if (jumlahVal < 1) jumlahVal = 1;
-  let total = durasiVal * jumlahVal * (1 - diskon);
+  const harga = parseInt(durasi.value) || 0;
+  const jml = parseInt(jumlah.value) || 1;
+  const total = harga * jml * (1 - diskon);
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
   totalBayar.textContent = totalHarga.textContent;
-  return total;
 }
 
-function checkForm() {
-  const nama = document.getElementById('nama').value.trim();
-  const wa = document.getElementById('wa').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const durasi = document.getElementById('durasi').value;
-const jumlah = document.getElementById('jumlah').value.trim();
-
-  btnBayar.disabled = !(nama && wa && email && durasi);
+function checkForm(){
+  btnBayar.disabled = !(nama.value && wa.value && email.value && durasi.value && jumlah.value);
   hitungTotal();
 }
 
 form.addEventListener('input', checkForm);
 promoInput.addEventListener('input', hitungTotal);
-
-btnBayar.onclick = () => { popup.style.display = 'flex'; };
-function tutupPopup(){ popup.style.display = 'none'; }
+btnBayar.onclick = ()=> popup.style.display = "flex";
 
 function kirimWA(){
-  const nama = document.getElementById('nama').value;
-  const wa = document.getElementById('wa').value;
-  const email = document.getElementById('email').value;
-  const durasi = document.getElementById('durasi').options[document.getElementById('durasi').selectedIndex].text;
-  const catatan = document.getElementById('catatan').value || "-";
-  const total = totalHarga.textContent;
-  const kodePromo = promoInput.value.trim() || "-";
+  const pesan =
+`*Canva Pro*
+Nama: ${nama.value}
+WhatsApp: ${wa.value}
+Email Canva: ${email.value}
+Durasi: ${durasi.options[durasi.selectedIndex].text}
+Jumlah: ${jumlah.value}
+Total: ${totalHarga.textContent}
+Promo: ${promoInput.value || "-"}
+Catatan: ${catatan.value || "-"}`;
 
-  const pesan = `*Canva Pro*\nNama: ${nama}\nWhatsApp: ${wa}\nEmail Canva: ${email}\nDurasi: ${durasi}\nJumlah: ${jumlah}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;
-  window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
+  window.open(
+    "https://wa.me/6283177152459?text=" + encodeURIComponent(pesan),
+    "_blank"
+  );
 }
 
-// Inisialisasi awal
-hitungTotal();
 checkForm();
 </script>
 </body>
