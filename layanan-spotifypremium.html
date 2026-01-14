@@ -20,155 +20,149 @@
   .total-box{margin-top:20px;padding:15px;background:#f9f9f9;border-radius:10px;font-weight:600;text-align:center;color:#333;border:1px solid #ddd;}
   .promo-invalid{font-size:0.9em;margin-top:5px;}
   .popup{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:999;}
-  .popup-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:400px;position:relative;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);animation:fadeIn 0.3s ease;}
-  @keyframes fadeIn{from{opacity:0;transform:scale(0.9);} to{opacity:1;transform:scale(1);}}
-  .close{position:absolute;right:15px;top:10px;cursor:pointer;font-weight:bold;font-size:20px;color:#555;}
+  .popup-content{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:400px;position:relative;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);}
+  .close{position:absolute;right:15px;top:10px;cursor:pointer;font-weight:bold;font-size:20px;}
   .pay-method{text-align:left;margin-top:15px;}
-  .confirm-btn{background:#4caf50;color:#fff;border:none;padding:10px;border-radius:10px;width:100%;font-weight:600;margin-top:15px;cursor:pointer;}
-  .confirm-btn:hover{background:#43a047;}
+  .confirm-btn{background:#4caf50;color:#fff;border:none;padding:10px;border-radius:10px;width:100%;font-weight:600;margin-top:15px;}
 </style>
 </head>
+
 <body>
 <header>
-  <a href="index.html" class="btn-back" title="Kembali">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#333">
-      <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-    </svg>
-  </a>
+  <a href="index.html" class="btn-back">←</a>
   <h1>Spotify Premium</h1>
 </header>
 
 <div class="container">
-  <form id="formWA">
-    <label>Nama Lengkap</label>
-    <input type="text" id="nama" placeholder="Contoh: Divine Limbong" required>
+<form id="formWA">
 
-    <label>Nomor WhatsApp</label>
-    <input type="tel" id="wa" required>
+<label>Nama Lengkap</label>
+<input type="text" id="nama" required>
 
-    <label>Email</label>
-    <input type="email" id="email" placeholder="Contoh: yorpedia@gmail.com" required>
+<label>Nomor WhatsApp</label>
+<input type="tel" id="wa" required>
 
-    <label>Durasi</label>
-    <select id="durasi" required>
-      <option value="7900">Rp7.900 [Stud,NoGar] / 1bln</option>
-      <option value="12900" selected>Rp12.900 [Stud,Gar] / 1bln</option>
-      <option value="17900">Rp17.900 [Fam,Gar] / 1bln</option>
-      <option value="32000">Rp32.000 [Fam,Gar] / 2bln</option>
-    </select>
+<label>Email</label>
+<input type="email" id="email" required>
 
-    <small id="warning7900" style="display:none;color:#e53935;font-size:0.85em;">Tidak direkomendasikan</small>
+<label>Durasi</label>
+<select id="durasi">
+  <option value="7900">Rp7.900 / 1bln</option>
+  <option value="12900" selected>Rp12.900 / 1bln</option>
+  <option value="17900">Rp17.900 / 1bln</option>
+  <option value="32000">Rp32.000 / 2bln</option>
+</select>
 
-    <label>Kode Promo</label>
-    <input type="text" id="promo" placeholder="Opsional">
-    <div id="promoMsg" class="promo-invalid"></div>
+<label>Jumlah</label>
+<input type="number" id="jumlah" value="1" min="1">
 
-    <div class="total-box">Total: <span id="totalHarga">Rp0</span></div>
+<label>Kode Promo</label>
+<input type="text" id="promo">
+<div id="promoMsg" class="promo-invalid"></div>
 
-    <label>Catatan Tambahan (Opsional)</label>
-    <textarea id="catatan"></textarea>
+<div class="total-box">
+  Total: <span id="totalHarga">Rp0</span>
+</div>
 
-    <button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
-  </form>
+<label>Catatan</label>
+<textarea id="catatan"></textarea>
+
+<button type="button" id="btnBayar" disabled>Metode Pembayaran</button>
+</form>
 </div>
 
 <div class="popup" id="popup">
-  <div class="popup-content">
-    <span class="close" onclick="tutupPopup()">❌</span>
-    <h3>Pilih Metode Pembayaran</h3>
-    <div class="pay-method">
-      <b>QRIS:</b><br><img src="qris.png" alt="Kode Qris" width="150"><br><br>
-      <b>DANA:</b> 0831-7715-2459 <small>(a.n MADAM)</small><br><br>
-      <b>GOPAY:</b> 0831-7715-2459 <small>(a.n YOR PEDIA)</small>
-    </div>
-    <p style="margin-top:20px;font-weight:600;color:#333;">
-      Total yang harus dibayar: <span id="totalBayar">Rp0</span>
-    </p>
-    <button class="confirm-btn" onclick="kirimWA()">Konfirmasi Pembayaran</button>
-  </div>
+<div class="popup-content">
+<span class="close" onclick="tutupPopup()">✖</span>
+<h3>Pilih Pembayaran</h3>
+
+<div class="pay-method">
+QRIS / DANA / GOPAY<br>0831-7715-2459
+</div>
+
+<p><b>Total:</b> <span id="totalBayar">Rp0</span></p>
+
+<button class="confirm-btn" onclick="kirimWA()">Konfirmasi</button>
+</div>
 </div>
 
 <script>
 const promoInput = document.getElementById('promo');
 const promoMsg = document.getElementById('promoMsg');
-const btnBayar = document.getElementById('btnBayar');
-const popup = document.getElementById('popup');
 const totalHarga = document.getElementById('totalHarga');
 const totalBayar = document.getElementById('totalBayar');
+const btnBayar = document.getElementById('btnBayar');
+const popup = document.getElementById('popup');
 const form = document.getElementById('formWA');
-const warning = document.getElementById('warning7900');
 
-let diskon = 0;
 let promoList = [];
+let diskon = 0;
 
 fetch('promo.json')
-  .then(res => res.json())
-  .then(data => { promoList = data.promo; })
-  .catch(() => {});
+.then(res => res.json())
+.then(data => promoList = data.promo)
+.catch(()=>{});
 
-function cekPromo() {
+function cekPromo(){
   const kode = promoInput.value.trim().toUpperCase();
-  const promo = promoList.find(p => p.code === kode);
-  if(promo){
-    diskon = promo.discount;
-    promoMsg.textContent = `Kode promo berhasil! Diskon ${diskon*100}% diterapkan.`;
+  const p = promoList.find(x => x.code === kode);
+  if(p){
+    diskon = p.discount;
+    promoMsg.textContent = `Diskon ${diskon*100}%`;
     promoMsg.style.color = "green";
-  } else if(kode !== ""){
-    diskon = 0;
-    promoMsg.textContent = "Kode promo tidak valid.";
-    promoMsg.style.color = "#e53935";
   } else {
     diskon = 0;
-    promoMsg.textContent = "";
+    promoMsg.textContent = kode ? "Promo tidak valid" : "";
+    promoMsg.style.color = "red";
   }
 }
 
-function hitungTotal() {
+function hitungTotal(){
   cekPromo();
-  let durasiVal = parseInt(document.getElementById('durasi').value) || 0;
-  let total = durasiVal * (1 - diskon);
+  const harga = parseInt(durasi.value);
+  const jumlah = parseInt(document.getElementById('jumlah').value) || 1;
+  const total = harga * jumlah * (1 - diskon);
   totalHarga.textContent = "Rp" + total.toLocaleString("id-ID");
   totalBayar.textContent = totalHarga.textContent;
-  return total;
 }
 
-function checkForm() {
+function checkForm(){
   const nama = document.getElementById('nama').value.trim();
   const wa = document.getElementById('wa').value.trim();
   const email = document.getElementById('email').value.trim();
-  const durasi = document.getElementById('durasi').value;
-
-  btnBayar.disabled = !(nama && wa && email && durasi);
+  const jumlah = document.getElementById('jumlah').value;
+  btnBayar.disabled = !(nama && wa && email && jumlah > 0);
   hitungTotal();
 }
-
-document.getElementById('durasi').addEventListener('change', () => {
-  let val = document.getElementById('durasi').value;
-  if (val === "7900") {
-    warning.style.display = "block";
-  } else {
-    warning.style.display = "none";
-  }
-  hitungTotal();
-});
 
 form.addEventListener('input', checkForm);
 promoInput.addEventListener('input', hitungTotal);
 
-btnBayar.onclick = () => { popup.style.display = 'flex'; };
+btnBayar.onclick = () => popup.style.display = 'flex';
 function tutupPopup(){ popup.style.display = 'none'; }
 
 function kirimWA(){
   const nama = document.getElementById('nama').value;
   const wa = document.getElementById('wa').value;
   const email = document.getElementById('email').value;
-  const durasi = document.getElementById('durasi').options[document.getElementById('durasi').selectedIndex].text;
-  const catatan = document.getElementById('catatan').value || "-";
+  const durasiText = durasi.options[durasi.selectedIndex].text;
+  const jumlah = document.getElementById('jumlah').value;
   const total = totalHarga.textContent;
-  const kodePromo = promoInput.value.trim() || "-";
+  const promo = promoInput.value || "-";
+  const catatan = document.getElementById('catatan').value || "-";
 
-  const pesan = `*Spotify Premium*\nNama: ${nama}\nWhatsApp: ${wa}\nEmail: ${email}\nDurasi: ${durasi}\nTotal: ${total}\nKode Promo: ${kodePromo}\nCatatan: ${catatan}`;
-  window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`, "_blank");
+  const pesan =
+`*Spotify Premium*
+Nama: ${nama}
+WA: ${wa}
+Email: ${email}
+Durasi: ${durasiText}
+Jumlah: ${jumlah}
+Total: ${total}
+Promo: ${promo}
+Catatan: ${catatan}`;
+
+  window.open(`https://wa.me/6283177152459?text=${encodeURIComponent(pesan)}`);
 }
 
 hitungTotal();
